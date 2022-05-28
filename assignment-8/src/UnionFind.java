@@ -16,7 +16,14 @@ public class UnionFind {
     * @param numElements initial number of singleton sets. 
     */ 
    public UnionFind (int numElements) {
-		//your code comes here
+      up = new int[numElements];
+      weight = new int[numElements];
+      numSets = numElements;
+
+      for (int i = 1; i <= numElements; i++) {
+         up[i-1] = i;
+         weight[i-1] = 1;
+      }
    }
  
    /** 
