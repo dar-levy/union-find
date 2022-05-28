@@ -37,8 +37,8 @@ public class UnionFind {
     * @return the representative of the group that contains i. 
     */ 
    public int find (int i) { 
-		//your code comes here
-   } 
+		return 1;
+   }
  
    /** 
     * Find the current number of sets. 
