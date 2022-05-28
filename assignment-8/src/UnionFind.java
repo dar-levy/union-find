@@ -77,9 +77,8 @@ public class UnionFind {
     * @return the number of set. 
     */ 
    public int getNumSets() { 
-		//your code comes here
-		return 0;
-   } 
+      return numSets;
+   }
  
    /** 
     * Prints the contents of the up array. 
