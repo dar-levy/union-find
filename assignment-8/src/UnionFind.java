@@ -68,7 +68,11 @@ public class UnionFind {
     * @return the representative of the group that contains i. 
     */ 
    public int find (int i) { 
-		return 1;
+		if (up[i] != -1) {
+           up[i] = find(up[i]);
+           i = up[i];
+        }
+        return i;
    }
  
    /** 
