@@ -21,7 +21,7 @@ public class UnionFind {
       numSets = numElements;
 
       for (int i = 1; i <= numElements; i++) {
-         up[i-1] = i;
+         up[i-1] = -1;
          weight[i-1] = 1;
       }
    }
@@ -34,8 +34,32 @@ public class UnionFind {
 	* If i or j are not representative elements - throw an IllegalArgumentException
     */ 
    public void union (int i, int j) { 
-		//your code comes here
-   } 
+      if (areRepresentatives(i,j) && isWeightNotEmpty(i,j)){
+         pointToCommonRepresentative(i,j);
+      } else {
+         throw new IllegalArgumentException("One of the arguments is not a representative");
+      }
+   }
+
+   private void pointToCommonRepresentative(int i, int j) {
+      if (weight[i] >= weight[j]) {
+         weight[i] += weight[j];
+         weight[j] = 0;
+         up[j] = i;
+      } else {
+         weight[j] += weight[i];
+         weight[i] = 0;
+         up[i] = j;
+      }
+   }
+   
+   private boolean isWeightNotEmpty(int i, int j){
+      return weight[i] != 0 && weight[j] != 0;
+   }
+
+   private boolean areRepresentatives(int i, int j) {
+      return up[i] == -1 && up[j] == -1;
+   }
  
    /** 
     * Finds the set representative, and applies path compression. 
