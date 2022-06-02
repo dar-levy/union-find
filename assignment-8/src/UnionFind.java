@@ -16,7 +16,14 @@ public class UnionFind {
     * @param numElements initial number of singleton sets. 
     */ 
    public UnionFind (int numElements) {
-		//your code comes here
+      up = new int[numElements];
+      weight = new int[numElements];
+      numSets = numElements;
+
+      for (int i = 1; i <= numElements; i++) {
+         up[i-1] = -1;
+         weight[i-1] = 1;
+      }
    }
  
    /** 
@@ -27,8 +34,32 @@ public class UnionFind {
 	* If i or j are not representative elements - throw an IllegalArgumentException
     */ 
    public void union (int i, int j) { 
-		//your code comes here
-   } 
+      if (areRepresentatives(i,j) && isWeightNotEmpty(i,j)){
+         pointToCommonRepresentative(i,j);
+      } else {
+         throw new IllegalArgumentException("One of the arguments is not a representative");
+      }
+   }
+
+   private void pointToCommonRepresentative(int i, int j) {
+      if (weight[i] >= weight[j]) {
+         weight[i] += weight[j];
+         weight[j] = 0;
+         up[j] = i;
+      } else {
+         weight[j] += weight[i];
+         weight[i] = 0;
+         up[i] = j;
+      }
+   }
+   
+   private boolean isWeightNotEmpty(int i, int j){
+      return weight[i] != 0 && weight[j] != 0;
+   }
+
+   private boolean areRepresentatives(int i, int j) {
+      return up[i] == -1 && up[j] == -1;
+   }
  
    /** 
     * Finds the set representative, and applies path compression. 
@@ -37,7 +68,11 @@ public class UnionFind {
     * @return the representative of the group that contains i. 
     */ 
    public int find (int i) { 
-		return 1;
+		if (up[i] != -1) {
+           up[i] = find(up[i]);
+           i = up[i];
+        }
+        return i;
    }
  
    /** 
@@ -46,9 +81,8 @@ public class UnionFind {
     * @return the number of set. 
     */ 
    public int getNumSets() { 
-		//your code comes here
-		return 0;
-   } 
+      return numSets;
+   }
  
    /** 
     * Prints the contents of the up array. 
