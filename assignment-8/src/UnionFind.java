@@ -18,7 +18,7 @@ public class UnionFind {
    public UnionFind (int numElements) {
       up = new int[numElements];
       weight = new int[numElements];
-      numSets = numElements;
+      numSets = numElements - 1;
 
       for (int i = 1; i <= numElements; i++) {
          up[i-1] = -1;
@@ -36,6 +36,7 @@ public class UnionFind {
    public void union (int i, int j) { 
       if (areRepresentatives(i,j) && isWeightNotEmpty(i,j)){
          pointToCommonRepresentative(i,j);
+         numSets--;
       } else {
          throw new IllegalArgumentException("One of the arguments is not a representative");
       }
