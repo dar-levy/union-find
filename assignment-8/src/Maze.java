@@ -23,7 +23,8 @@ public class Maze {
     * @param fileName name of image file to process. 
     */ 
    public Maze (String fileName, Color c) {
-		//your code comes here
+        this.image = new DisplayImage(fileName);
+        System.out.println(this.image);
    } 
 
    /**
@@ -138,7 +139,7 @@ public class Maze {
  
       System.out.println ("Number of components: " + maze.getNumComponents()); 
  
-      DisplayImage compImg = maze.getComponentImage(); 
+      DisplayImage compImg = maze.getComponentImage();
       compImg.show(); 
    } 
 } 
