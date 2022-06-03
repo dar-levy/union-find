@@ -193,7 +193,7 @@ public final class DisplayImage {
     */
    public static void main (String[] args) {
 
-      DisplayImage pic = new DisplayImage ("maze2.PNG");
+      DisplayImage pic = new DisplayImage ("src/images/maze2.PNG");
       int xMax = pic.width() - 1; 
       int yMax = pic.height() - 1; 
       for (int x = 0; x <= xMax; x++) 
