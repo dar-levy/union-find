@@ -25,8 +25,8 @@ public class Maze {
    public Maze (String fileName, Color c) {
 		//your code comes here
    } 
- 
-   /** 
+
+   /**
     * Generates a unique integer id from (x, y) coordinates. 
     * It is suggested you implement this function, in order to transform
 	* pixels into valid indices for the UnionFind data structure.
@@ -36,8 +36,7 @@ public class Maze {
     * @return unique id. 
     */ 
    private int pixelToId (int x, int y) { 
-		//your code comes here
-        return 0;
+        return (y* image.width()) + x;
    } 
  
    /** 
