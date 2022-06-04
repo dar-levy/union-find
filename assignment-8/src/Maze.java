@@ -6,7 +6,7 @@ import java.awt.Color;
 /** 
  * A class for decomposing images into connected components. 
  */ 
-public class Maze { 
+public class Maze {
  
    private UnionFind uf; 
    private DisplayImage image;
@@ -24,8 +24,9 @@ public class Maze {
     */ 
    public Maze (String fileName, Color c) {
         this.image = new DisplayImage(fileName);
-        System.out.println(this.image);
-   } 
+        this.uf = new UnionFind(this.image.width() * this.image.height());
+       System.out.println("Maze constructor");
+   }
 
    /**
     * Generates a unique integer id from (x, y) coordinates. 
@@ -133,7 +134,7 @@ public class Maze {
     */ 
    public static void main (String[] args) { 
  
-	  Maze maze = new Maze (args[0], Color.black); 
+	  Maze maze = new Maze ("src/images/maze2.PNG", Color.black);
  
       System.out.println (maze.mazeHasSolution());
  

@@ -20,13 +20,13 @@ public class UnionFind {
       weight = new int[numElements];
       numSets = numElements - 1;
 
-      for (int i = 1; i <= numElements; i++) {
+      for (int i = 1; i < numElements; i++) {
          up[i-1] = -1;
          weight[i-1] = 1;
       }
    }
  
-   /** 
+   /**
     * Unites two sets using weigthed union. 
     * 
     * @param i representative of first set. 
