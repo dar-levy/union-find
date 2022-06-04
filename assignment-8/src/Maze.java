@@ -6,7 +6,7 @@ import java.awt.Color;
 /** 
  * A class for decomposing images into connected components. 
  */ 
-public class Maze { 
+public class Maze {
  
    private UnionFind uf; 
    private DisplayImage image;
@@ -23,10 +23,23 @@ public class Maze {
     * @param fileName name of image file to process. 
     */ 
    public Maze (String fileName, Color c) {
-		//your code comes here
-   } 
- 
-   /** 
+        this.startX = -1;
+        this.startY = -1;
+        this.endX = -1;
+        this.endY = -1;
+        this.image = new DisplayImage(fileName);
+        this.uf = new UnionFind(this.image.width() * this.image.height());
+        for (int w = 0; w < this.image.width(); w++){
+            for (int h = 0; h < this.image.height(); h++){
+                connect(w,h, w - 1, h, c);
+                connect(w,h, w + 1, h, c);
+                connect(w,h, w, h - 1, c);
+                connect(w,h, w, h + 1, c);
+            }
+        }
+   }
+
+   /**
     * Generates a unique integer id from (x, y) coordinates. 
     * It is suggested you implement this function, in order to transform
 	* pixels into valid indices for the UnionFind data structure.
@@ -36,8 +49,7 @@ public class Maze {
     * @return unique id. 
     */ 
    private int pixelToId (int x, int y) { 
-		//your code comes here
-        return 0;
+        return (y* this.image.width()) + x;
    } 
  
    /** 
@@ -50,11 +62,44 @@ public class Maze {
     * @param x2 x-coordinate of second pixel. 
     * @param y2 y-coordinate of second pixel. 
     */ 
-   public void connect (int x1, int y1, int x2, int y2) { 
-		//your code comes here
-   } 
- 
+   public void connect (int x1, int y1, int x2, int y2, Color color) {
+        try {
+            checkIfCoordinateIsRed(x1, y1, color);
+            checkIfCoordinateIsRed(x2, y2, color);
+            if (isCoordinateInRange(x2, y2) && bothHaveSameColor(x1,y1,x2,y2)){
+                this.uf.union(pixelToId(x1, y1), pixelToId(x2,y2));
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+   }
 
+   private void checkIfCoordinateIsRed(int x, int y, Color color) {
+       if (isCoordinateInRange(x,y)){
+           if (this.image.isRed(x,y)){
+               this.image.set(x,y,color);
+               if (startX == -1){
+                   this.startX = x;
+                   this.startY = y;
+               } else {
+                   this.endX = x;
+                   this.endY = y;
+               }
+           }
+       }
+   }
+
+   private boolean bothHaveSameColor(int x1, int y1, int x2, int y2) {
+       return this.image.isOn(x1,y1) == this.image.isOn(x2, y2);
+   }
+
+   private boolean isCoordinateInRange(int x, int y) {
+       return isValueInRange(x, 0, this.image.width()) && isValueInRange(y, 0, this.image.height());
+   }
+
+   private boolean isValueInRange(int value, int start, int end) {
+       return value >= start && value < end;
+   }
  
    /** 
     * Checks if two pixels are connected (belong to the same component). 
@@ -66,8 +111,7 @@ public class Maze {
     * @return true if the pixels are connected, false otherwise. 
     */ 
    public boolean areConnected (int x1, int y1, int x2, int y2) { 
-		//your code comes here
-		return false;
+		return this.uf.find(pixelToId(x1, y1)) == this.uf.find(pixelToId(x2, y2));
    } 
  
    /** 
@@ -76,8 +120,7 @@ public class Maze {
     * @return the number of components in the image 
     */ 
    public int getNumComponents() { 
-		//your code comes here
-		return 0;
+        return this.uf.getNumSets();
    } 
  
    /**
@@ -87,8 +130,7 @@ public class Maze {
     * @return true if and only if the maze has a solution
     */
    public boolean mazeHasSolution(){
-		//your code comes here
-		return false;
+		return startX != -1 && endX != -1 && areConnected(startX, startY, endX, endY);
    }
       
    /** 
@@ -133,13 +175,13 @@ public class Maze {
     */ 
    public static void main (String[] args) { 
  
-	  Maze maze = new Maze (args[0], Color.black); 
+	  Maze maze = new Maze ("src/images/maze2.PNG", Color.black);
  
       System.out.println (maze.mazeHasSolution());
  
       System.out.println ("Number of components: " + maze.getNumComponents()); 
  
-      DisplayImage compImg = maze.getComponentImage(); 
+      DisplayImage compImg = maze.getComponentImage();
       compImg.show(); 
    } 
 } 
