@@ -23,6 +23,10 @@ public class Maze {
     * @param fileName name of image file to process. 
     */ 
    public Maze (String fileName, Color c) {
+        this.startX = -1;
+        this.startY = -1;
+        this.endX = -1;
+        this.endY = -1;
         this.image = new DisplayImage(fileName);
         this.uf = new UnionFind(this.image.width() * this.image.height());
         for (int w = 0; w < this.image.width(); w++){
@@ -33,7 +37,6 @@ public class Maze {
                 connect(w,h, w, h + 1);
             }
         }
-       System.out.println("Maze constructor");
    }
 
    /**
@@ -59,14 +62,31 @@ public class Maze {
     * @param x2 x-coordinate of second pixel. 
     * @param y2 y-coordinate of second pixel. 
     */ 
-   public void connect (int x1, int y1, int x2, int y2) {
+   public void connect (int x1, int y1, int x2, int y2, Color color) {
         try {
+            checkIfCoordinateIsRed(x1, y1, color);
+            checkIfCoordinateIsRed(x2, y2, color);
             if (isCoordinateInRange(x2, y2) && bothHaveSameColor(x1,y1,x2,y2)){
                 this.uf.union(pixelToId(x1, y1), pixelToId(x2,y2));
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+   }
+
+   private void checkIfCoordinateIsRed(int x, int y, Color color) {
+       if (isCoordinateInRange(x,y)){
+           if (this.image.isRed(x,y)){
+               this.image.set(x,y,color);
+               if (startX == -1){
+                   this.startX = x;
+                   this.startY = y;
+               } else {
+                   this.endX = x;
+                   this.endY = y;
+               }
+           }
+       }
    }
 
    private boolean bothHaveSameColor(int x1, int y1, int x2, int y2) {
