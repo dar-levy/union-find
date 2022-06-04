@@ -61,12 +61,16 @@ public class Maze {
     */ 
    public void connect (int x1, int y1, int x2, int y2) {
         try {
-            if (isCoordinateInRange(x2, y2)){
+            if (isCoordinateInRange(x2, y2) && bothHaveSameColor(x1,y1,x2,y2)){
                 this.uf.union(pixelToId(x1, y1), pixelToId(x2,y2));
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+   }
+
+   private boolean bothHaveSameColor(int x1, int y1, int x2, int y2) {
+       return this.image.isOn(x1,y1) == this.image.isOn(x2, y2);
    }
 
    private boolean isCoordinateInRange(int x, int y) {
