@@ -31,10 +31,10 @@ public class Maze {
         this.uf = new UnionFind(this.image.width() * this.image.height());
         for (int w = 0; w < this.image.width(); w++){
             for (int h = 0; h < this.image.height(); h++){
-                connect(w,h, w - 1, h);
-                connect(w,h, w + 1, h);
-                connect(w,h, w, h - 1);
-                connect(w,h, w, h + 1);
+                connect(w,h, w - 1, h, c);
+                connect(w,h, w + 1, h, c);
+                connect(w,h, w, h - 1, c);
+                connect(w,h, w, h + 1, c);
             }
         }
    }
