@@ -25,6 +25,14 @@ public class Maze {
    public Maze (String fileName, Color c) {
         this.image = new DisplayImage(fileName);
         this.uf = new UnionFind(this.image.width() * this.image.height());
+        for (int w = 0; w < this.image.width(); w++){
+            for (int h = 0; h < this.image.height(); h++){
+                connect(w,h, w - 1, h);
+                connect(w,h, w + 1, h);
+                connect(w,h, w, h - 1);
+                connect(w,h, w, h + 1);
+            }
+        }
        System.out.println("Maze constructor");
    }
 
@@ -38,7 +46,7 @@ public class Maze {
     * @return unique id. 
     */ 
    private int pixelToId (int x, int y) { 
-        return (y* image.width()) + x;
+        return (y* this.image.width()) + x;
    } 
  
    /** 
@@ -51,11 +59,23 @@ public class Maze {
     * @param x2 x-coordinate of second pixel. 
     * @param y2 y-coordinate of second pixel. 
     */ 
-   public void connect (int x1, int y1, int x2, int y2) { 
-		//your code comes here
-   } 
- 
+   public void connect (int x1, int y1, int x2, int y2) {
+        try {
+            if (isCoordinateInRange(x2, y2)){
+                this.uf.union(pixelToId(x1, y1), pixelToId(x2,y2));
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+   }
 
+   private boolean isCoordinateInRange(int x, int y) {
+       return isValueInRange(x, 0, this.image.width()) && isValueInRange(y, 0, this.image.height());
+   }
+
+   private boolean isValueInRange(int value, int start, int end) {
+       return value >= start && value < end;
+   }
  
    /** 
     * Checks if two pixels are connected (belong to the same component). 
