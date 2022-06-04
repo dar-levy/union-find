@@ -111,8 +111,7 @@ public class Maze {
     * @return true if the pixels are connected, false otherwise. 
     */ 
    public boolean areConnected (int x1, int y1, int x2, int y2) { 
-		//your code comes here
-		return false;
+		return this.uf.find(pixelToId(x1, y1)) == this.uf.find(pixelToId(x2, y2));
    } 
  
    /** 
@@ -121,8 +120,7 @@ public class Maze {
     * @return the number of components in the image 
     */ 
    public int getNumComponents() { 
-		//your code comes here
-		return 0;
+        return this.uf.getNumSets();
    } 
  
    /**
@@ -132,8 +130,7 @@ public class Maze {
     * @return true if and only if the maze has a solution
     */
    public boolean mazeHasSolution(){
-		//your code comes here
-		return false;
+		return startX != -1 && endX != -1 && areConnected(startX, startY, endX, endY);
    }
       
    /** 
